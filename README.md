@@ -1,2 +1,2 @@
 # rogue-labs
-various tutorial and resources
+various tutorials and resources
