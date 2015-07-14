@@ -16,11 +16,11 @@ of Display-O-Tron 3000. Channels accessed as follows:
     SN3218_CH_15 baroled 7
     SN3218_CH_16 baroled 8
     SN3218_CH_17 baroled 9
-    JOYSTICK_DWN Digital 6
-    JOYSTICK_UP  Digital 7
-    JOYSTICK_DWN Digital 8
-    JOYSTICK_UP  Digital 9
-    JOYSTICK_TRG Digital 10
+    JOYSTICK_DOWN  Digital 6
+    JOYSTICK_UP    Digital 7
+    JOYSTICK_RIGHT Digital 8
+    JOYSTICK_LEFT  Digital 9
+    JOYSTICK_TRIG  Digital 10
 *********************************************************************/
 
 #include <Wire.h> // import Wire(i2c) library
