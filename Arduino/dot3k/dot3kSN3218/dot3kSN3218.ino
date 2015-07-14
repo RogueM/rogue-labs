@@ -25,7 +25,6 @@ of Display-O-Tron 3000 via i2C. Channels accessed as follows:
     SN3218_CH_15 baroled 7
     SN3218_CH_16 baroled 8
     SN3218_CH_17 baroled 9 (rightmost)
-    SN3218_CH_ALL affects all channels
 *********************************************************************/
 
 #include <Wire.h> // import Wire(i2c) library
@@ -40,14 +39,19 @@ void setup() {
 
 void loop() {
   int i; // variable for iterations
-  for( i = 0; i < SN3218_NUM_CHANNELS; i++ ){ // loop through all 18 channels (incl. bargraph)
-    sn3218.set(i,0); // reset all LEDs to 0/off
-    sn3218.update(); // update SN3218 register
-  }
-  for( i = 0; i < 8; i++ ){ // loop through the 9 backlit LEDs (<17 to include bargraph) 
+  clear_ch_all(); // call reset function defined at the end of this sketch
+  for( i = 0; i <= 8; i++ ){ // loop through the 9 backlit LEDs (<17 to include bargraph) 
     sn3218.set(i,brightness); // set LED to previously defined brightness
     sn3218.update(); // update SN3218 register
     delay(100); // pause before next LED is processed
+  }
+}
+
+void clear_ch_all() { // reset function
+  int i; // variable for iterations
+  for( i = 0; i < SN3218_NUM_CHANNELS; i++ ){ // loop through all 18 channels (incl. backlit)
+    sn3218.set(i,0); // reset all LEDs to 0/off
+    sn3218.update(); // update SN3218 register
   }
 }
 
