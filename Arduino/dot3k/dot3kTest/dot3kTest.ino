@@ -33,13 +33,10 @@ void loop() {
   
 /*clear LED driver register*/
   int i; // variable for iterations
-  for( i = 0; i < SN3218_NUM_CHANNELS; i++ ){
-    sn3218.set(i,0); // reset all LEDs to 0/off
-    sn3218.update(); // update SN3218 register
-  }
-  
+  clear_ch_all(); // call reset function defined at the end of this sketch
+
 /*activate DOT3K backlit channels*/
-  for( i = 0; i < 8; i++ ){ // loop through the 9 backlit LEDs
+  for( i = 0; i <= 8; i++ ){ // loop through the 9 backlit LEDs
     sn3218.set(i,brightness); // set LED to previously defined brightness
     sn3218.update(); // update SN3218 register
     delay(100); // pause before next LED is processed
@@ -54,5 +51,13 @@ void loop() {
   lcd.print("prove it:");
   lcd.setCursor(10,2); // place cursor at end of line 3
   lcd.print(millis()/1000); // print the number of seconds since last board reset
+}
+
+void clear_ch_all() { // reset function
+  int i; // variable for iterations
+  for( i = 0; i < SN3218_NUM_CHANNELS; i++ ){ // loop through all 18 channels (incl. backlit)
+    sn3218.set(i,0); // reset all LEDs to 0/off
+    sn3218.update(); // update SN3218 register
+  }
 }
 
