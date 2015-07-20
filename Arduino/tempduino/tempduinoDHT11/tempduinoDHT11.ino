@@ -12,15 +12,15 @@ Includes support for thresholds and rounding indication.
 #include <dht.h> // import dht library
 dht DHT; // alias declaration
 int dhtCheck = 0; // variable used to check DHT functionality
-const float calibH = 0.85; // calibration factor for Humidity
-const float calibT = 0.85; // calibration factor for Temperature
+const float calibH = 0.85; // calibration factor for Humidity (typical ~0.85-8.875)
+const float calibT = 0.85; // calibration factor for Temperature (typical ~0.85-8.875)
 const float tempFlag = 25.0; // temp in C to flag if exceeded
-const float humFlag = 35.0; // hum in % to flag if exceeded
+const float humFlag = 40.0; // hum in % to flag if exceeded
 
-const int dhtPin = 10; // pin with DHT11 attached
-const int ledPinR = 9; // pin with R LED attached for 1st digit
-const int ledPinG = 11; // pin with G LED attached for 2nd digit
-const int ledPinB = 13; // on-board LED for Humidity reading
+const int dhtPin = A2; // pin with DHT11 attached
+const int ledPinR = 2; // pin with R LED attached for 1st digit
+const int ledPinG = 3; // pin with G LED attached for 2nd digit
+const int ledPinB = 9; // on-board LED for Humidity reading
 const int ledPins [ ] = {ledPinR,ledPinG,ledPinB}; // array of all LED pins
 const int ledCount = 3; // variable to hold LED pins count
 int ledUsed = 13; // variable to hold LED currently handled
@@ -65,37 +65,39 @@ void loop() {
   printValues(hReading,tReading);
   
   // display first digit via R LED
-  if (firstDigit == 0){ // special case of 0
-    for (i = 1; i <= 5; i++) // flashing longue 5 times
+  if (firstDigit == 0) { // special case of 0
+    for (i = 1; i <= 5; i++) { // flashing longue 5 times
       blink(ledPinR, longue);
+    }
   }
   else {
-    for (i = 1; i <= firstDigit; i++) {
-      if (firstDigit <= 5) { // low digits
+    if (firstDigit <= 5) { // low digits
+      for (i = 1; i <= firstDigit; i++) {
         blink(ledPinR,brieve); // flashing brieves
       }
-      else {
-        for (i = 1; i <= firstDigit-5; i++) { // high digits
-          blink(ledPinR,longue); // flashing longues
-        }
+    }
+    else {
+      for (i = 1; i <= firstDigit-5; i++) { // high digits
+        blink(ledPinR,longue); // flashing longues
       }
     }
   }
   
   // display second digit via G LED
-  if (secondDigit == 0){ // special case of 0
-    for (i = 1; i <= 5; i++) // flashing longue 5 times
+  if (secondDigit == 0) { // special case of 0
+    for (i = 1; i <= 5; i++) { // flashing longue 5 times
       blink(ledPinG, longue);
+    }
   }
   else {
-    for (i = 1; i <= secondDigit; i++) {
-      if (firstDigit <= 5) { // low digits
+    if (secondDigit <= 5) { // low digits
+      for (i = 1; i <= secondDigit; i++) {
         blink(ledPinG,brieve); // flashing brieves
       }
-      else {
-        for (i = 1; i <= secondDigit-5; i++) { // high digits
-          blink(ledPinG,longue); // flashing longues
-        }
+    }
+    else {
+      for (i = 1; i <= secondDigit-5; i++) { // high digits
+        blink(ledPinG,longue); // flashing longues
       }
     }
   }
